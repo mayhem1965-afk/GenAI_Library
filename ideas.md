@@ -6,6 +6,8 @@ This is the first big idea
 ** Big Idea 2
 This is the second big idea
 
+*** Notes on Big Idea 2
+
 ** Big Idea 3
 This is the third big idea
 
