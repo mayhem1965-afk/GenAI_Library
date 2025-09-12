@@ -8,3 +8,5 @@ This is the second big idea
 
 ** Big Idea 3
 This is the third big idea
+
+*** Notes on Big Idea 3
