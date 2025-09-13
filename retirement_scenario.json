@@ -1,0 +1,91 @@
+{
+  "plan_meta": {
+    "currency": "USD",
+    "spending_is_real_dollars": true,
+    "simulation": {
+      "n_sims": 10000,
+      "random_seed": 42
+    },
+    "returns_model": {
+      "stocks_real_mean": 0.07,
+      "stocks_real_std": 0.18,
+      "bonds_real_mean": 0.02,
+      "bonds_real_std": 0.06,
+      "correlation_assumed_zero": true
+    },
+    "inflation_model": {
+      "approach": "real_terms"
+    },
+    "tax_model": {
+      "effective_tax_rate_before_primary_ss_age": 0.18,
+      "effective_tax_rate_at_or_after_primary_ss_age": 0.15,
+      "ss_taxation_assumed": true
+    },
+    "allocation_glidepath": {
+      "start_stock": 0.65,
+      "start_bond": 0.35,
+      "end_stock": 0.50,
+      "end_bond": 0.50,
+      "years_linear_to_end": "auto_horizon"
+    }
+  },
+
+  "household": {
+    "you": {
+      "current_age": 60,
+      "retire_age": 60,
+      "death_age": 95,
+      "social_security": {
+        "monthly_benefit_at_start": 3900,
+        "start_age": 67
+      },
+      "pension": {
+        "monthly_benefit_at_start": 0,
+        "start_age": null
+      },
+      "pre_retirement_contributions": {
+        "annual_contribution": 0,
+        "annual_increase_rate_real": 0.00,
+        "employer_match_annual": 0
+      },
+      "additional_retirement_income": []
+    },
+
+    "spouse": {
+      "current_age": 58,
+      "retire_age": 58,
+      "death_age": 95,
+      "social_security": {
+        "monthly_benefit_at_start": 1300,
+        "start_age": 62
+      },
+      "pension": {
+        "monthly_benefit_at_start": 2500,
+        "start_age": 62
+      },
+      "pre_retirement_contributions": {
+        "annual_contribution": 0,
+        "annual_increase_rate_real": 0.00,
+        "employer_match_annual": 0
+      },
+      "additional_retirement_income": []
+    }
+  },
+
+  "benefit_realization": {
+    "social_security_realization_pct": 1.00
+  },
+
+  "spending_goal": {
+    "desired_income_per_year_real": 100000
+  },
+
+  "portfolio": {
+    "initial_drop_pct_in_year_1": 0.00,
+    "balances": {
+      "traditional_tax_deferred": 2700000,
+      "roth_tax_free": 300000
+    }
+  }
+}
+
