@@ -53,7 +53,7 @@
 
     "spouse": {
       "current_age": 58,
-      "retire_age": 58,
+      "retire_age": 62,
       "death_age": 95,
       "social_security": {
         "monthly_benefit_at_start": 1300,
