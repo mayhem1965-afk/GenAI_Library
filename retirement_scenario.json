@@ -40,7 +40,7 @@ include simple visualizations using Javascript that doesn't require any external
   "household": {
     "you": {
       "current_age": 60,
-      "retire_age": 60,
+      "retire_age": 62,
       "death_age": 95,
       "social_security": {
         "monthly_benefit_at_start": 3900,
@@ -50,8 +50,8 @@ include simple visualizations using Javascript that doesn't require any external
         "monthly_benefit_at_start": 0,
         "start_age": null
       },
-      "pre_retirement_contributions": {
-        "annual_contribution": 0,
+      "pre_retirement_contributions_roth": {
+        "annual_contribution": 30000,
         "annual_increase_rate_real": 0.00,
         "employer_match_annual": 0
       },
@@ -70,8 +70,8 @@ include simple visualizations using Javascript that doesn't require any external
         "monthly_benefit_at_start": 2500,
         "start_age": 62
       },
-      "pre_retirement_contributions": {
-        "annual_contribution": 0,
+      "pre_retirement_contributions_traditional": {
+        "annual_contribution": 30000,
         "annual_increase_rate_real": 0.00,
         "employer_match_annual": 0
       },
@@ -90,8 +90,9 @@ include simple visualizations using Javascript that doesn't require any external
   "portfolio": {
     "initial_drop_pct_in_year_1": 0.00,
     "balances": {
-      "traditional_tax_deferred": 2700000,
-      "roth_tax_free": 300000
+      "traditional_tax_deferred": 1900000,
+      "brokerage_taxed_on_gains": 500000,
+      "roth_tax_free": 400000
     }
   }
 }

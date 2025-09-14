@@ -1,0 +1,98 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Retirement Percentile Paths (Real $)</title>
+<style>
+  body { font-family: system-ui, sans-serif; margin: 20px; }
+  canvas { border: 1px solid #ccc; width: 100%; max-width: 900px; height: 420px; }
+  .legend { margin: 8px 0; display: flex; gap: 16px; flex-wrap: wrap; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .swatch { width: 14px; height: 3px; display: inline-block; background: #000; }
+</style>
+<h2>Retirement Percentile Paths (Real $)</h2>
+<canvas id="chart" width="1100" height="480"></canvas>
+<div class="legend" id="legend"></div>
+<script>
+/* === Paste your data here if you regenerate === */
+const ages = [60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95];
+
+const p90 = [3000000,3300934,3589326,3889831,4207489,4546520,4911469,5306746,5736853,6206404,6720157,7283048,7900172,8576723,9318152,10130380,11019740,11992717,13057123,14222277,15499013,16900008,18439644,20134059,22001255,24061156,26335760,28849372,31628880,34703935,38107375,41875541,46048795,50671812,55793949,61469698];
+
+const p75 = [3000000,3228278,3440381,3661982,3897417,4151686,4429797,4737441,5080564,5465579,5899396,6389509,6944038,7571794,8282321,9085954,9993988,11018727,12176836,13473648,14924844,16550375,18374988,20428718,22747460,25373428,28355878,31752008,35628121,40060789,45139092,50966393,57652744,65329763,74137006,84236386];
+
+const p50 = [3000000,3163839,3309457,3461275,3623753,3802157,4002328,4230739,4494548,4801677,5160842,5581694,6074913,6652326,7327087,8113940,9029424,10091868,11303969,12670647,14215522,15965663,17952345,20211977,22786925,25726216,29086263,32931967,37337948,42389456,48184614,54836568,62475639,71252673,81339842,92938064];
+
+const p25 = [3000000,3104080,3182026,3265027,3356829,3462004,3586060,3735593,3918603,4144828,4426251,4776973,5213486,5755258,6425291,7249921,8259111,9485571,10964874,12718808,14783925,17211672,20062793,23407805,27328623,31920443,37294875,43582213,50933098,59523352,69557671,81276061,94957051,110924910,129260681,150919059];
+
+const p10 = [3000000,3043411,3061103,3078647,3098598,3123856,3158218,3206786,3276302,3376072,3518612,3719870,3999687,4382930,4899701,5586812,6489447,7663567,9178675,11122885,13526453,16526939,20298646,25050991,31029315,38514446,47814644,59254123,73146765,89834410,109676847,133632830,162639333,197787802,240501552,292540562];
+
+/* === Simple chart renderer (no libs) === */
+const series = [
+  {name: "90th %ile", data: p90, color: "#1f77b4"},
+  {name: "75th %ile", data: p75, color: "#ff7f0e"},
+  {name: "50th %ile (median)", data: p50, color: "#2ca02c"},
+  {name: "25th %ile", data: p25, color: "#d62728"},
+  {name: "10th %ile", data: p10, color: "#9467bd"}
+];
+
+const canvas = document.getElementById('chart');
+const ctx = canvas.getContext('2d');
+const pad = {l: 70, r: 20, t: 20, b: 40};
+
+// Axis ranges
+const xMin = ages[0], xMax = ages[ages.length-1];
+const yMin = 0;
+const yMax = Math.max(...series.flatMap(s => s.data)) * 1.05;
+
+// Helpers
+const x2px = x => pad.l + ( (x - xMin) / (xMax - xMin) ) * (canvas.width - pad.l - pad.r);
+const y2px = y => canvas.height - pad.b - ( (y - yMin) / (yMax - yMin) ) * (canvas.height - pad.t - pad.b);
+
+// Clear
+ctx.fillStyle = "#fff"; ctx.fillRect(0,0,canvas.width,canvas.height);
+
+// Grid + axes
+ctx.strokeStyle = "#ddd"; ctx.lineWidth = 1;
+const yTicks = 6;
+for (let i=0;i<=yTicks;i++){
+  const yVal = yMin + (i*(yMax-yMin)/yTicks);
+  const y = y2px(yVal);
+  ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(canvas.width-pad.r, y); ctx.stroke();
+  ctx.fillStyle = "#555"; ctx.textAlign = "right"; ctx.textBaseline = "middle";
+  ctx.fillText(`$${(yVal/1e6).toFixed(1)}M`, pad.l-8, y);
+}
+ctx.beginPath(); ctx.moveTo(pad.l, y2px(0)); ctx.lineTo(canvas.width-pad.r, y2px(0)); ctx.stroke();
+
+const xTicks = ages.length <= 18 ? ages.length-1 : 9;
+for (let i=0;i<=xTicks;i++){
+  const a = xMin + Math.round((i*(xMax-xMin))/xTicks);
+  const x = x2px(a);
+  ctx.beginPath(); ctx.moveTo(x, pad.t); ctx.lineTo(x, canvas.height-pad.b); ctx.strokeStyle = "#f2f2f2"; ctx.stroke();
+  ctx.fillStyle = "#555"; ctx.textAlign = "center"; ctx.textBaseline = "top";
+  ctx.fillText(a, x, canvas.height-pad.b+6);
+}
+
+// Draw lines
+for (const s of series){
+  ctx.beginPath();
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = s.color;
+  s.data.forEach((val, i) => {
+    const x = x2px(ages[i]);
+    const y = y2px(val);
+    if (i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  });
+  ctx.stroke();
+}
+
+// Legend
+const legend = document.getElementById('legend');
+for (const s of series){
+  const span = document.createElement('span');
+  const sw = document.createElement('i');
+  sw.className = 'swatch';
+  sw.style.background = s.color;
+  span.appendChild(sw);
+  span.appendChild(document.createTextNode(s.name));
+  legend.appendChild(span);
+}
+</script>
