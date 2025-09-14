@@ -1,7 +1,10 @@
 Act as a financial advisor.
 Please use the below JSON to evaluate the retirement plan.  Run a Monte Carlo simulation to evaluate the portfolio balance
-over the life of the plan, and show results for the 90th, 75th, 50th, 25th, and 10th percentiles.  Show the probability of success (not running out of money before death).
-Identify the greatest risks to the plan, and suggest possible mitigations. You response should be formatted in Markdown and should
+over the life of the plan, and show results for the 90th, 75th, 50th, 25th, and 10th percentiles.
+Show the probability of success (not running out of money before death).
+Assume current tax rates for Federal and Maryland tax deductions during retirement.
+Identify the greatest risks to the plan, and suggest possible mitigations.
+You response should be formatted in Markdown and should
 include simple visualizations using Javascript that doesn't require any external libraries.
 
 
